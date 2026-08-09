@@ -15,3 +15,7 @@ test-results/
 playwright-report/
 blob-report/
 .playwright/
+
+# next dev が自動生成する。Next.js のバージョンごとに中身が変わるため追跡しない。
+AGENTS.md
+CLAUDE.md

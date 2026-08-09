@@ -25,41 +25,77 @@
 
 Next.js (App Router) / TypeScript / Tailwind CSS / PostgreSQL (Supabase互換) / Stripe (Phase 2)
 
+## 必要なもの
+
+- Node.js 22 以上
+- PostgreSQL 16 — Docker Desktop があれば同梱の `docker-compose.yml` で立てられる
+
 ## セットアップ
 
-### 1. 依存関係
+プロジェクトのフォルダで、以下の2つを順に実行する。
 
 ```bash
 npm install
+npm run init
 ```
 
-### 2. データベース
+`npm run init` がまとめてやること。
 
-PostgreSQL を用意して接続先を書く。Supabase のプロジェクトでも、ローカルのPostgreSQLでもよい。
+1. `.env.local` を作る(`AUTH_SECRET` は自動生成)
+2. Docker で PostgreSQL を起動して、接続できるまで待つ
+3. スキーマを作る
+4. デモデータ(天神・大名・今泉の架空3拠点)を入れる
 
-```bash
-cp .env.example .env.local
-# .env.local の DATABASE_URL を編集する
-# AUTH_SECRET も自分で生成した値に置き換える
-node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"
-```
+最後に各区画のQR URLと、オーナー画面・管理画面のログイン情報が表示される。
+QR URLをブラウザで開けば、現地でQRを読んだのと同じ状態になる。
 
-スキーマとデモデータを入れる。
-
-```bash
-npm run db:migrate   # スキーマ作成
-npm run db:seed      # 天神・大名・今泉の架空3拠点を作成
-```
-
-`db:seed` は各区画のQR URLを出力する。これをブラウザで開けば、QRを読んだのと同じ状態になる。
-
-作り直すときは `npm run db:reset`。
-
-### 3. 起動
+## 起動
 
 ```bash
 npm run dev
-# http://localhost:3000
+```
+
+http://localhost:3000 を開く。
+
+| やりたいこと | 行き先 |
+| --- | --- |
+| サービス紹介を見る | http://localhost:3000 |
+| 設置場所から区画のQRをたどる | http://localhost:3000/spots |
+| オーナー画面 | http://localhost:3000/owner |
+| 管理画面 | http://localhost:3000/admin |
+
+## Windows で動かす
+
+PowerShell での手順。パスは例。
+
+```powershell
+cd "C:\Users\jinji\code\プロジェクト\Jin_Web\PITTO"
+npm install
+npm run init
+npm run dev
+```
+
+Docker Desktop を起動してから `npm run init` を実行すること。
+起動していないと手順2で「docker daemon に接続できない」と出る。
+
+## Docker を使わない場合
+
+PostgreSQL を自分で用意して、`.env.local` の `DATABASE_URL` をそのDBに向ける。
+Supabase のプロジェクトでもよい(Project Settings → Database の接続文字列)。
+
+```bash
+npm run setup        # .env.local を作る
+# .env.local の DATABASE_URL を書き換える
+npm run db:migrate
+npm run db:seed
+```
+
+## データベースの操作
+
+```bash
+npm run db:up        # PostgreSQL を起動
+npm run db:down      # 止める(データは残る)
+npm run db:reset     # スキーマを作り直してデモデータを入れ直す
 ```
 
 ## 画面
@@ -102,12 +138,17 @@ npm run dev
 ## テスト
 
 ```bash
-npm test        # 料金計算とトークン生成のユニットテスト
-npm run e2e     # §38 の必須テストをブラウザ操作で確認
+npm test          # 料金計算とトークン生成のユニットテスト
 npm run typecheck
 ```
 
-E2Eは実際のデータベースを使う。事前に `npm run db:reset` で状態を揃えてから実行する。
+E2Eは実際のデータベースとブラウザを使う。初回だけブラウザの取得が必要。
+
+```bash
+npx playwright install chromium   # 初回のみ
+npm run db:reset                  # 状態を揃える
+npm run e2e
+```
 
 E2Eが確認しているのは以下。
 
@@ -130,10 +171,33 @@ E2Eが確認しているのは以下。
 - 運営がトラブル報告を対応済みにできる
 - 運営が出庫忘れの利用を強制終了できる
 
-## 注意点
+## 詰まりやすいところ
 
-- `next build` と `next start` は `NODE_ENV=production` を前提とする。
-  シェルに `NODE_ENV=development` が残っていると、Next.js内部ページのプリレンダリングが
-  `Cannot read properties of null (reading 'useContext')` で失敗する。
-  その場合は `NODE_ENV=production npm run build` のように明示する。
+**`npm run init` が docker のところで止まる**
+
+Docker Desktop が起動していない。起動してから `npm run db:up` を実行し、
+続けて `npm run db:migrate` と `npm run db:seed` を実行する。
+
+**ポート 5432 がすでに使われている**
+
+別の PostgreSQL が動いている。`docker-compose.yml` の `ports` を `"5433:5432"` に変え、
+`.env.local` の `DATABASE_URL` も 5433 に合わせる。
+
+**`AUTH_SECRET が未設定か短すぎます` と出る**
+
+`.env.local` がないか、`AUTH_SECRET` が置き換えられていない。`npm run setup` で作り直す。
+
+**`npm run build` が `Cannot read properties of null (reading 'useContext')` で失敗する**
+
+`next build` と `next start` は `NODE_ENV=production` を前提とする。
+シェルに `NODE_ENV=development` が残っていると、Next.js内部ページのプリレンダリングで落ちる。
+通常の環境では起きないが、起きた場合は `NODE_ENV` を消してから実行する。
+
+```powershell
+Remove-Item Env:NODE_ENV   # PowerShell
+```
+
+## 設計上の注意
+
 - 料金は必ずサーバー側で確定させる。利用中画面に出る金額は端末時計から計算した目安。
+- `.env.local` はコミットしない(`.gitignore` 済み)。`AUTH_SECRET` は環境ごとに変える。
