@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* §36 基調は 白 + 濃紺 + アクセント1色。色数を増やさない。 */
+@theme {
+  --color-ink: #0d1425;
+  --color-ink-soft: #4b5566;
+  --color-line: #e3e6ec;
+  --color-surface: #f5f6f9;
+  --color-accent: #1552f0;
+  --color-accent-strong: #0f42c7;
+
+  --font-sans: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+html {
+  /* 数字を等幅に寄せ、経過時間や金額が1秒ごとに揺れないようにする。 */
+  font-variant-numeric: tabular-nums;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
