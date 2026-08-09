@@ -24,8 +24,8 @@ export default async function LocationPage({ params }: { params: Promise<{ id: s
 
   return (
     <main className="flex flex-1 flex-col px-5 pb-10 pt-6">
-      <Link href="/" className="text-sm font-semibold text-accent">
-        ← PITTOトップ
+      <Link href="/spots" className="text-sm font-semibold text-accent">
+        ← 設置場所一覧
       </Link>
 
       <h1 className="mt-3 text-2xl font-bold leading-snug">{location.name}</h1>

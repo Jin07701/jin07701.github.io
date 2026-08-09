@@ -13,15 +13,14 @@ export const viewport: Viewport = {
   themeColor: "#0d1425",
 };
 
+/**
+ * ルートは html/body だけを持つ。
+ * 画面の枠は (app) / (marketing) / owner / admin の各レイアウトが決める。
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <body className="font-sans antialiased">
-        {/* §36 スマホファースト。広い画面でも横に広げず、中央の1カラムに収める。 */}
-        <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col bg-white shadow-sm">
-          {children}
-        </div>
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

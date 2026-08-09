@@ -1,16 +1,16 @@
 import { expect, test } from "@playwright/test";
 
 import {
+  closeDb,
   countIncidents,
   countOpenSessions,
   setAccepting,
   spaceStatus,
-  sql,
   takeFreeSpace,
 } from "./helpers";
 
 test.afterAll(async () => {
-  await sql.end();
+  await closeDb();
 });
 
 /**

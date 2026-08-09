@@ -1,7 +1,12 @@
 import postgres from "postgres";
 
+import { hashPassword } from "../src/lib/password";
 import { generateQrToken } from "../src/lib/tokens";
 import { requireDatabaseUrl } from "./env";
+
+/** 開発用のログイン。オーナー画面(§25)と管理画面(§27)を触るために作る。 */
+const DEMO_OWNER = { email: "owner@pitto.example", password: "pitto-owner" };
+const DEMO_STAFF = { email: "staff@pitto.example", password: "pitto-staff" };
 
 /**
  * §37 のデモデータ。福岡・天神周辺を想定した3拠点。
@@ -52,8 +57,8 @@ async function main(): Promise<void> {
       }
 
       const [ownerUser] = await tx<{ id: string }[]>`
-        insert into users (email, email_verified_at)
-        values ('demo-owner@pitto.example', now())
+        insert into users (email, email_verified_at, password_hash)
+        values (${DEMO_OWNER.email}, now(), ${hashPassword(DEMO_OWNER.password)})
         returning id
       `;
 
@@ -62,11 +67,17 @@ async function main(): Promise<void> {
         values (
           ${ownerUser.id}::uuid,
           'デモオーナー',
-          'demo-owner@pitto.example',
+          ${DEMO_OWNER.email},
           'APPROVED',
           now()
         )
         returning id
+      `;
+
+      // §27 の管理画面に入るPITTO運営者。
+      await tx`
+        insert into users (email, email_verified_at, password_hash, is_staff)
+        values (${DEMO_STAFF.email}, now(), ${hashPassword(DEMO_STAFF.password)}, true)
       `;
 
       for (const location of LOCATIONS) {
@@ -123,6 +134,10 @@ async function main(): Promise<void> {
       join parking_locations l on l.id = s.parking_location_id
       order by l.name, s.space_number
     `;
+
+    console.log("\n開発用ログイン:");
+    console.log(`  オーナー画面 /owner  ${DEMO_OWNER.email} / ${DEMO_OWNER.password}`);
+    console.log(`  管理画面     /admin  ${DEMO_STAFF.email} / ${DEMO_STAFF.password}`);
 
     const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
     console.log("\n区画QRのURL:");

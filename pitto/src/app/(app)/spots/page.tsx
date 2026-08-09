@@ -5,26 +5,22 @@ import { listPublishedLocations } from "@/server/parking";
 export const dynamic = "force-dynamic";
 
 /**
- * トップページ。
+ * 設置場所の一覧。
  *
- * §29 のとおり検索は主役ではない。ここは PITTO を知るための入口と、
- * 設置済み駐輪場の確認用に留めていて、利用開始の導線はあくまで現地のQR。
+ * §29 のとおり検索は主役ではない。利用開始の導線はあくまで現地のQRで、
+ * この画面は「どこにあるか」を確認するためのもの。
  */
-export default async function HomePage() {
+export default async function SpotsPage() {
   const locations = await listPublishedLocations();
 
   return (
     <main className="flex flex-1 flex-col px-5 pb-10 pt-8">
-      <p className="text-sm font-semibold tracking-widest text-accent">PITTO</p>
-      <h1 className="mt-2 text-3xl font-bold leading-snug">
-        空いている場所に、
-        <br />
-        その場でサッと停める。
-      </h1>
-      <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-        予約なし、アプリなし、駐輪機なし。
-        <br />
-        現地のQRを読むだけで利用できます。
+      <Link href="/" className="text-sm font-semibold text-accent">
+        ← PITTOについて
+      </Link>
+      <h1 className="mt-3 text-2xl font-bold">設置場所</h1>
+      <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+        現地でQRを読むとすぐ利用できます。事前の予約はありません。
       </p>
 
       <section className="mt-8">
