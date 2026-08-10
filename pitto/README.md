@@ -78,6 +78,13 @@ npm run dev
 Docker Desktop を起動してから `npm run init` を実行すること。
 起動していないと手順2で「docker daemon に接続できない」と出る。
 
+まだソースを置いていない場合は、`scripts/install-windows.ps1` が
+ダウンロードから `npm run init` までをまとめて行う。Git がなくても使える。
+
+```powershell
+.\scripts\install-windows.ps1 -Dest "C:\Users\jinji\code\プロジェクト\Jin_Web\PITTO"
+```
+
 ## Docker を使わない場合
 
 PostgreSQL を自分で用意して、`.env.local` の `DATABASE_URL` をそのDBに向ける。
