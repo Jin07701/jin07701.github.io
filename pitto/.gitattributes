@@ -1,7 +1,0 @@
-# Windows と macOS / Linux で改行が混ざらないようにする。
-# 作業ディレクトリ上も LF に揃える。Node と Git Bash はそのまま扱える。
-* text=auto eol=lf
-
-*.png binary
-*.jpg binary
-*.pdf binary
