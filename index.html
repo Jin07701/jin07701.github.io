@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>あなたに必要な言葉 | そっと届く、今日の一言</title>
+<meta name="description" content="「あなたに必要な言葉」は、今の気分に合わせて、そっと寄り添う一言を受け取れるiPhoneアプリです。ログイン不要・無料でご利用いただけます。" />
+<meta property="og:title" content="あなたに必要な言葉 | そっと届く、今日の一言" />
+<meta property="og:description" content="今の気分に合わせて、そっと寄り添う一言を受け取れるiPhoneアプリ。ログイン不要・無料。" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://jin07701.github.io/assets/app-icon.png" />
+<link rel="icon" href="assets/app-icon.png" />
+<link rel="apple-touch-icon" href="assets/app-icon.png" />
+<style>
+  :root{
+    --bg:#f1f6f1;
+    --paper:#ffffff;
+    --ink:#24352c;
+    --muted:#5d7466;
+    --accent:#2f624b;
+    --accent-soft:#e6f0e8;
+    --line:rgba(93,126,111,.16);
+    --shadow:0 18px 40px rgba(49,81,65,.10);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic UI","Yu Gothic",Meiryo,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.85;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);}
+  .wrap{width:min(1040px,calc(100% - 40px));margin:0 auto;}
+  header.site{padding:22px 0;}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;}
+  .brand img{width:40px;height:40px;border-radius:11px;box-shadow:var(--shadow);}
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:26px 0 56px;}
+  .hero h1{font-size:clamp(30px,4.4vw,46px);line-height:1.35;margin:6px 0 14px;letter-spacing:.01em;}
+  .kicker{display:inline-block;padding:6px 14px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:14px;}
+  .lead{color:var(--muted);font-size:17px;margin:0 0 26px;}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:14px 24px;border-radius:16px;text-decoration:none;font-weight:700;
+    background:var(--accent);color:#fff;box-shadow:var(--shadow);min-height:48px;
+  }
+  .btn.secondary{background:#fff;color:var(--accent);border:1px solid var(--line);box-shadow:none;}
+  .note{font-size:14px;color:var(--muted);margin-top:12px;}
+  .shots{display:flex;gap:16px;justify-content:center;}
+  .shots img{
+    width:100%;max-width:220px;border-radius:24px;border:1px solid var(--line);
+    box-shadow:var(--shadow);background:#fff;
+  }
+  .shots img:nth-child(2){display:none;}
+  section{padding:44px 0;}
+  h2{font-size:clamp(22px,2.6vw,28px);margin:0 0 8px;}
+  .section-lead{color:var(--muted);margin:0 0 26px;}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .card{
+    background:var(--paper);border:1px solid var(--line);border-radius:20px;
+    padding:22px;box-shadow:var(--shadow);
+  }
+  .card h3{margin:0 0 6px;font-size:18px;color:var(--accent);}
+  .card p{margin:0;color:var(--muted);font-size:15px;}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;counter-reset:step;}
+  .step{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;}
+  .step .num{
+    display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;
+    border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;margin-bottom:8px;
+  }
+  .step p{margin:0;color:var(--muted);font-size:15px;}
+  .faq{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:8px 22px;box-shadow:var(--shadow);}
+  .faq details{border-bottom:1px solid var(--line);padding:14px 0;}
+  .faq details:last-child{border-bottom:none;}
+  .faq summary{cursor:pointer;font-weight:700;list-style:none;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::before{content:"Q. ";color:var(--accent);}
+  .faq p{margin:10px 0 0;color:var(--muted);}
+  footer.site{padding:36px 0 56px;border-top:1px solid var(--line);margin-top:30px;color:var(--muted);font-size:14px;}
+  footer.site a{margin-right:18px;display:inline-block;}
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;gap:28px;padding-bottom:36px;}
+    .cards,.steps{grid-template-columns:1fr;}
+    .shots img:nth-child(2){display:block;}
+    .shots img{max-width:160px;}
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap brand">
+    <img src="assets/app-icon.png" alt="あなたに必要な言葉 アプリアイコン" />
+    <span>あなたに必要な言葉</span>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <span class="kicker">iPhone / iPad 対応・無料</span>
+      <h1>そっと届く、<br />今日のあなたに必要な言葉。</h1>
+      <p class="lead">
+        「安心」「癒し」「前向き」「自己肯定」——今の気分をえらぶだけ。
+        その時の自分に寄り添う短い言葉と、やさしい補足メッセージが静かに届きます。
+        ログインも登録も必要ありません。
+      </p>
+      <div class="cta-row">
+        <a class="btn" href="https://apps.apple.com/jp/app/id6766235585">App Store でひらく</a>
+        <a class="btn secondary" href="#about">アプリについて</a>
+      </div>
+      <p class="note">無料でご利用いただけます（アプリ内に広告が表示されます）。</p>
+    </div>
+    <div class="shots">
+      <img src="assets/screen-01.png" alt="今日の言葉画面。気分を選ぶと、その気分に合う言葉が表示されます。" />
+      <img src="assets/screen-02.png" alt="安心をテーマにした言葉の表示例" />
+    </div>
+  </div>
+
+  <section id="about" class="wrap">
+    <h2>できること</h2>
+    <p class="section-lead">迷わず、静かに、続けられる。必要なものだけを残しました。</p>
+    <div class="cards">
+      <div class="card">
+        <h3>気分に合わせて選ぶ</h3>
+        <p>安心・癒し・前向き・自己肯定の4つから、いまの気持ちに近いものを選ぶだけ。その気分に合う言葉が届きます。</p>
+      </div>
+      <div class="card">
+        <h3>保存して読み返す</h3>
+        <p>心に残った言葉は保存できます。受け取った言葉は履歴からいつでも読み返せます。</p>
+      </div>
+      <div class="card">
+        <h3>続けるほど、静かに寄り添う</h3>
+        <p>連続で開いた日数を表示します。同じ言葉が続けて出にくいので、毎日ひらいても新しい気持ちで受け取れます。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>使い方</h2>
+    <p class="section-lead">3ステップ、15秒。</p>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><p>アプリをひらき、今の気分をえらびます。</p></div>
+      <div class="step"><div class="num">2</div><p>あなたに必要な言葉と、やさしい補足メッセージが表示されます。</p></div>
+      <div class="step"><div class="num">3</div><p>心に残ったら「保存」。あとから履歴や保存一覧で読み返せます。</p></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>よくあるご質問</h2>
+    <div class="faq">
+      <details open>
+        <summary>料金はかかりますか？</summary>
+        <p>無料です。アプリ内課金やサブスクリプションはありません。運営のため、画面下部に広告が表示されます。</p>
+      </details>
+      <details>
+        <summary>会員登録やログインは必要ですか？</summary>
+        <p>必要ありません。アプリをひらくとすぐにお使いいただけます。</p>
+      </details>
+      <details>
+        <summary>保存した言葉はどこに残りますか？</summary>
+        <p>お使いの端末の中にのみ保存されます。当方のサーバーへ送信されることはありません。</p>
+      </details>
+      <details>
+        <summary>広告の表示について教えてください。</summary>
+        <p>Google AdMob による広告を表示しています。iPhone では、より関連性の高い広告を表示するためにトラッキングの許可をお伺いすることがあります。「許可しない」を選んでも、アプリの機能はこれまで通りご利用いただけます。詳しくは<a href="privacy-policy.html">プライバシーポリシー</a>をご覧ください。</p>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div>
+      <a href="privacy-policy.html">プライバシーポリシー</a>
+      <a href="support.html">サポート</a>
+      <a href="https://apps.apple.com/jp/app/id6766235585">App Store</a>
+    </div>
+    <p>お問い合わせ: jinjinadachi00@gmail.com<br />&copy; 2026 Jin</p>
+  </div>
+</footer>
+</body>
+</html>
